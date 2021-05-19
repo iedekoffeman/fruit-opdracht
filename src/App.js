@@ -7,6 +7,16 @@ import { ReactComponent as ShoppingCart } from './assets/winkelmandje.svg';
 import './App.css';
 
 function App() {
+
+    const [messageValue, setMessageValue] = React.useState('');
+    const [checkedTerms, toggleCheckedTerms] = React.useState(false);
+    const [submitted, setSubmitted] = React.useState(false);
+
+    function sendForm () {
+        console.log(`Het bericht: "${messageValue}" is succesvol verzonden.`);
+        setSubmitted(true);
+    }
+
   return (
       <>
       <nav>
@@ -43,6 +53,39 @@ function App() {
            description="Een ijsblokje of ijsklontje is bevroren water in de vorm van een klein blokje. Het wordt gemaakt in een diepvriezer door water in een plastic vorm te laten bevriezen."
         />
     </main>
+          <footer>
+              <div className="form-container">
+                  <h2>Contactformulier</h2>
+                  <form>
+                    <input
+                        type="text"
+                        name="message"
+                        className={messageValue.length > 20 ? 'input-error' : ''}
+
+                        placeholder={messageValue}
+                        onChange={(e) => setMessageValue(e.target.value)}
+                    />
+                  {messageValue.length > 20 && <p className="error-message">Dit bericht is te lang!</p>}
+                      <label htmlFor="terms-and-conditions">
+                          <input
+                              type="checkbox"
+                              name="terms-and-conditions"
+                              id="terms-and-conditions"
+                              checked={checkedTerms}
+                              onChange={() => toggleCheckedTerms(!checkedTerms)}
+                          />
+                          Ik ga akkoord met de algemene voorwaarden
+                      </label>
+                  </form>
+                  <button
+                      type="Submit"
+                      disabled={!checkedTerms}
+                      onClick={sendForm}
+                  >
+                      Verstuur
+                  </button>
+              </div>
+          </footer>
           </>
   );
 }
